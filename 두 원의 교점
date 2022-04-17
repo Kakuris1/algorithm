@@ -1,0 +1,24 @@
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+	int T, x1, y1, r1, x2, y2, r2;
+	cin >> T;
+	for (int i = 0; i < T; i++)
+	{
+		cin >> x1 >> y1 >> r1 >> x2 >> y2 >> r2;
+		int A = x1 - x2;
+		int B = y1 - y2;
+		int C = r1 + r2;
+		if (A == 0 && B == 0 && r1 == r2) { cout << "-1" << endl; }
+		else if (A * A + B * B < (r1 - r2) * (r1 - r2)) { cout << "0" << endl; }
+		else if (A * A + B * B == (r1 - r2) * (r1 - r2)) { cout << "1" << endl; }
+		else {
+			if (A * A + B * B < C * C) { cout << "2" << endl; }
+			else if (A * A + B * B == C * C) { cout << "1" << endl; }
+			else if (A * A + B * B > C * C) { cout << "0" << endl; }
+		}
+	}
+}
