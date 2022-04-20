@@ -1,0 +1,53 @@
+#include<iostream>
+
+using namespace std;
+
+void countingstar(int N, int x, int y);
+bool star[2188][2188] = { false };
+
+int main()
+{
+	int N;
+	cin >> N;
+	countingstar(N, N/2+1, N/2+1);
+	for (int i = 1; i <= N; i++)
+	{
+		for (int j = 1; j <= N; j++)
+		{
+			if (star[j][i] == false)
+			{
+				cout << "*";
+			}
+			else 
+			{
+				cout << " ";
+			}
+		}
+		cout << endl;
+	}
+	return 0;
+}
+
+void countingstar(int N, int x, int y)
+{
+	if (N == 1) { return; }
+	for (int i = y - (N / 3) / 2; i <= y + (N / 3) / 2; i++)
+	{
+		for (int j = x - (N / 3) / 2; j <= x + (N / 3) / 2; j++)
+		{
+			star[j][i] = true;
+		}
+	}
+	countingstar(N / 3, x - N / 3, y - N / 3);
+	countingstar(N / 3, x, y - N / 3);
+	countingstar(N / 3, x + N / 3, y - N / 3);
+
+	countingstar(N / 3, x - N / 3, y);
+	//중앙
+	countingstar(N / 3, x + N / 3, y);
+
+	countingstar(N / 3, x - N / 3, y + N / 3);
+	countingstar(N / 3, x, y + N / 3);
+	countingstar(N / 3, x + N / 3, y + N / 3);
+	return;
+}
