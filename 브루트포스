@@ -1,0 +1,33 @@
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+	int N, M, needchange, min = -1; //N 세로, M 가로
+	cin >> N >> M;
+	char board[50][50];
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++)
+		{
+			cin >> board[i][j];
+		}
+	}
+
+	for (int i = 0; i <= N - 8; i++) {
+		for (int j = 0; j <= M - 8; j++)
+		{
+			needchange = 0;
+				for (int a = i; a < i + 8; a++) {
+					for (int b = j; b < j + 8; b++)
+					{
+						if ((a + b) % 2 == 0 && board[a][b] == 'B') { needchange++; }
+						if ((a + b) % 2 == 1 && board[a][b] == 'W') { needchange++; }
+					}
+				}
+			if (needchange > 32) { needchange = 64 - needchange; }
+			if (min == -1 || min > needchange) { min = needchange; }
+		}
+	}
+	cout << min;
+}
