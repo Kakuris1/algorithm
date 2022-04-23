@@ -1,0 +1,44 @@
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+	int H[9];
+	int sum=0;
+	for(int i=0; i<9; i++)
+	{
+		cin >> H[i];
+		sum+=H[i];
+	}
+	
+	for(int i=0; i<8; i++){
+		for(int j=i+1; j<9; j++){
+			if(sum-H[i]-H[j]==100)
+			{
+				H[i]=100;
+				H[j]=100;
+				i=8;
+				j=9;
+			}
+		}
+	}
+	int tmp;
+	for(int i=0; i<8; i++)
+	{
+		for(int j=i+1; j<9; j++)
+		{
+			if(H[i]>H[j])
+			{
+				tmp=H[i];
+				H[i]=H[j];
+				H[j]=tmp;
+			}
+		}
+	}
+	
+	for(int i=0; i<7; i++)
+	{
+		cout<< H[i]<<endl;
+	}
+}
