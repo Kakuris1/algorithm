@@ -1,0 +1,106 @@
+#include<iostream>
+
+using namespace std;
+
+void swap(char *a, char *b);
+int Find_Max(void);
+
+int N;
+int Max=0;
+char candy[50][50];
+
+int main()
+{
+	cin >> N;
+	// 사탕 입력
+	for(int i=0; i<N; i++){
+		for(int j=0; j<N; j++)
+		{
+			cin >> candy[i][j];
+		}
+	}
+	//사탕 가로 교환 케이스
+	for(int i=0; i<N; i++){
+		for(int j=0; j<N-1; j++)
+		{
+			if(candy[i][j]!=candy[i][j+1])
+			{
+				swap(&candy[i][j], &candy[i][j+1]);
+				Max=Find_Max();
+				swap(&candy[i][j], &candy[i][j+1]);
+				
+				if(Max==N){
+					cout << Max;
+					return 0;
+				}
+			}
+		}
+	}
+	
+	//사탕 세로 교환 케이스
+	for(int i=0; i<N-1; i++){
+		for(int j=0; j<N; j++)
+		{
+			if(candy[i][j]!=candy[i+1][j])
+			{
+				swap(&candy[i][j], &candy[i+1][j]);
+				Max=Find_Max();
+				swap(&candy[i][j], &candy[i+1][j]);
+				
+				if(Max==N){
+					cout << Max;
+					return 0;
+				}
+			}
+		}
+	}
+	cout << Max;
+}
+
+void swap(char *a, char *b)
+{
+	char tmp;
+	tmp=*a;
+	*a=*b;
+	*b=tmp;
+}
+
+int Find_Max(void)
+{
+	int count;
+	//가로 판별
+	for(int i=0; i<N; i++){
+		int j=0;
+		count=0;
+		for(int a=0; a<N; a++)
+		{
+			if(candy[i][j]==candy[i][a]){
+				count++;
+			}
+			else
+			{
+				j=a;
+				count=1;
+			}
+			if(Max<count){ Max=count; }
+		}
+		if(Max==N){ return N; }
+	}
+	//세로 판별
+	for(int j=0; j<N; j++){
+		int i=0;
+		count=0;
+		for(int a=0; a<N; a++)
+		{
+			if(candy[i][j]==candy[a][j]){ count++; }
+			else
+			{
+				i=a;
+				count=1;
+			}
+			if(Max<count){ Max=count; }
+		}
+		if(Max==N){ return N; }
+	}
+	return Max;
+}
