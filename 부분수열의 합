@@ -1,0 +1,55 @@
+#include<iostream>
+
+using namespace std;
+
+int N, S;
+int count=0;
+int array[20]={0,};
+bool sequence[20];
+
+void Find(int num);
+
+int main()
+{
+	cin >> N >> S;
+	for(int i=0; i<N; i++)
+	{
+		cin >> array[i];
+	}
+	Find(0);
+	if(S==0){ count--; }
+	cout << count;
+}
+
+void Find(int num)
+{
+	sequence[num]=true;
+	if(num==N-1)
+	{
+		int tmp=0;
+		for(int i=0; i<N; i++)
+		{
+			if(sequence[i]==true)
+			{
+				tmp+=array[i];
+			}
+		}
+		if(tmp==S){count++;}
+	}
+	else{ Find(num+1); }
+	
+	sequence[num]=false;
+	if(num==N-1)
+	{
+		int tmp=0;
+		for(int i=0; i<N; i++)
+		{
+			if(sequence[i]==true)
+			{
+				tmp+=array[i];
+			}
+		}
+		if(tmp==S){count++;}
+	}
+	else{ Find(num+1); }
+}
