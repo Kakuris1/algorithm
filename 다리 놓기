@@ -1,0 +1,20 @@
+#include<stdio.h>
+
+int main()
+{
+	int M, N, T;
+	double numerator, denominator, value;
+	scanf("%d", &T);
+	for (int t = 0; t < T; t++)
+	{
+		numerator = 1.0, denominator = 1.0;
+		scanf("%d%d", &N, &M);
+		for (int i = 1; i <= N; i++)
+		{
+			numerator *= (M + 1-i);
+			denominator *= i;
+			value = numerator / denominator;
+		}
+		printf("%.0f\n", value);
+	}
+}
