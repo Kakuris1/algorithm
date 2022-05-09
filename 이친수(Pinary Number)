@@ -1,0 +1,27 @@
+#include<iostream>
+using namespace std;
+
+long long pinary(int N, int bi);
+long long PI_NUM[91][2]={0,};
+
+int main()
+{
+	int N;
+	cin >> N;
+	cout << pinary(N, 1);
+}
+
+long long pinary(int N, int bi)
+{
+	if (PI_NUM[N][bi] != 0) { return PI_NUM[N][bi]; }
+	if (N == 1)
+	{
+		PI_NUM[N][bi] = 1;
+	}
+	else
+	{
+		if (bi == 0){ PI_NUM[N][bi] = pinary(N - 1, 1) + pinary(N - 1, 0); }
+		if (bi == 1){ PI_NUM[N][bi] = pinary(N - 1, 0); }
+	}
+	return PI_NUM[N][bi];
+}
