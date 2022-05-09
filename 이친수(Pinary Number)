@@ -25,3 +25,4 @@ long long pinary(int N, int bi)
 	}
 	return PI_NUM[N][bi];
 }
+ 
