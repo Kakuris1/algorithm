@@ -1,0 +1,26 @@
+#include<iostream>
+
+using namespace std;
+
+int N, K;
+
+int main()
+{
+	cin>>N>>K;
+	
+	int lo=1;
+	int hi=1000000000;
+	while(lo<=hi)
+	{
+		int count=0;
+		int mid=(lo+hi)/2;
+		for(int i=1; i<=N; i++)
+		{
+			if(N<mid/i){ count+=N; }
+			else{ count+=(mid/i); }
+		}
+		if(count>=K){ hi=mid-1; }
+		else{ lo=mid+1; }
+	}
+	cout<<lo;
+}
