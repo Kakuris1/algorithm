@@ -1,0 +1,18 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+    int n, a,b,c;
+    cin >>n;
+    a=1;
+    b=3;
+    if(n==1){cout<<"1"; return 0;}
+    for(int i=3;i<=n;i++)
+    {
+        c=2*a+b;
+        if(c>10007){c=c%10007;}
+        a=b;
+        b=c;
+    }
+    cout<<b;
+}
