@@ -1,0 +1,60 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+const int IMPOSSIBLE = 1000000000;
+int dp[101][10001];
+int value[101];
+int coin(int N, int K);
+int n, k;
+int CNT = 0;
+int CNT1 = 0;
+
+int main()
+{
+	cin >> n >> k;
+	for (int i = 0; i < n; i++) { cin >> value[i]; }
+
+	for (int i = 0; i <= 100; i++) {
+		for (int j = 0; j <= 10000; j++) {
+			dp[i][j] = -1;
+		}
+	}
+	int result = coin(0, k);
+	if (result == IMPOSSIBLE) { result = -1; }
+	cout << result << " " << CNT << " " << CNT1;
+}
+
+int coin(int N, int K) {
+	CNT++;
+	if (N == n) return (K == 0 ? 0 : IMPOSSIBLE); // base case
+	if (dp[N][K] != -1) {
+		CNT1++;
+		return dp[N][K];
+	}
+
+	int result = coin(N + 1, K);
+	if (K >= value[N]) result = min(result, coin(N, K - value[N]) + 1);
+	dp[N][K] = result; // dp 배열 값 갱신
+	return result;
+}
+
+/*
+int coin(int N, int K)
+{
+	CNT++;
+	if (N == n) return (K == 0 ? 0 : IMPOSSIBLE);
+	if (dp[N][K] != -1) {
+		CNT1++;
+		return dp[N][K];
+	}
+
+	int result = IMPOSSIBLE;
+	for (int i = 0; i <= K / value[N]; i++)
+	{
+		result = min(result, coin(N + 1, K - value[N] * i) + i);
+	}
+	dp[N][K] = result;
+	return result;
+}
+*/
