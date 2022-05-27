@@ -1,0 +1,33 @@
+#include<iostream>
+using namespace std;
+
+int N;
+int dp[1001][10];
+int UPN(int pos, int num);
+
+int main()
+{
+	cin >> N;
+	for(int i=0; i<1001; i++)
+	{
+		for(int j=0; j<10; j++)
+		{
+			dp[i][j]=-1;
+		}
+	}
+	cout << UPN(0, 0);
+}
+
+int UPN(int pos, int num)
+{
+	if(pos==N){return 1;}
+	if(dp[pos][num]!=-1){return dp[pos][num];}
+	int result=0;
+	for(int i=num; i<=9; i++)
+	{
+		result+=UPN(pos+1, i);
+		result=result%10007;
+	}
+	dp[pos][num]=result;
+	return result;
+}
