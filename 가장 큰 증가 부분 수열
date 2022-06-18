@@ -1,0 +1,28 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int N;
+int ar[1001], dp[1001][1001];
+int SUM_MAX_AR(int pos, int recent);
+
+int main()
+{
+	cin >> N;
+	for (int i = 1; i <= N; i++) { cin >> ar[i]; }
+    ar[0]=0;
+	for (int i = 0; i <= 1000; i++)
+		for (int j = 0; j <= 1000; j++)
+			dp[i][j] = -1;
+	cout << SUM_MAX_AR(1, 0);
+}
+
+int SUM_MAX_AR(int pos, int recent)
+{
+	if (pos == N+1) return 0;
+	if (dp[pos][recent] != -1) { return dp[pos][recent]; }
+	int result = SUM_MAX_AR(pos + 1, recent);
+	if (ar[pos] > ar[recent]) { result = max(result, SUM_MAX_AR(pos + 1, pos) + ar[pos]); }
+	dp[pos][recent] = result;
+	return result;
+}
