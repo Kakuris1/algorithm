@@ -1,0 +1,30 @@
+#include<iostream>
+
+using namespace std;
+int N, L, temp;
+int hole[1001];
+
+int main()
+{
+	cin >> N >> L;
+	for (int i = 1; i <= N; i++) { cin >> hole[i]; }
+
+	for (int i = 1; i <= N; i++)
+		for (int j = i; j <= N; j++)
+			if (hole[i] > hole[j]) {
+				temp = hole[i];
+				hole[i] = hole[j];
+				hole[j] = temp;
+			}
+
+	int last = 0, count = 0;
+	for (int i = 1; i <= N; i++)
+	{
+		if (hole[i] > last)
+		{
+			count++;
+			last = hole[i] + L - 1;
+		}
+	}
+	cout << count;
+}
