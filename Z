@@ -1,0 +1,49 @@
+#include<iostream>
+using namespace std;
+
+int N, r, c;
+long long cnt = -1;
+int Z(int x, int y, int size);
+
+int main()
+{
+	cin >> N >> r >> c;
+	int result = 1;
+	for (int i = 0; i < N; i++)
+		result *= 2;
+	Z(0, 0, result);
+	return 0;
+}
+
+int Z(int x, int y, int size)
+{
+	if (size == 1)
+	{
+		cnt++;
+		if (x == c && y == r) {
+			cout << cnt;
+			return true;
+		}
+		return false;
+	}
+	if (r < y + size / 2){
+		if (c < x + size / 2) {	// 좌상단일 경우
+			if (Z(x, y, size / 2)) return true;
+		}
+		else { // 우상단일 경우
+			cnt += (size / 2) * (size / 2);
+			if (Z(x + size / 2, y, size / 2)) return true;
+		}	
+	}
+	else
+	{
+		if (c < x + size / 2) { // 좌하단일 경우
+			cnt += 2 * (size / 2) * (size / 2);
+			if (Z(x, y + size / 2, size / 2)) return true;
+		}
+		else { // 우하단일 경우
+			cnt += 3 * (size / 2) * (size / 2);
+			if (Z(x + size / 2, y + size / 2, size / 2)) return true;
+		}
+	}
+}
