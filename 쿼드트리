@@ -1,0 +1,41 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+int N;
+string QT[65][65];
+string Quad_Tree(int x, int y, int size);
+
+int main()
+{
+	cin >> N;
+    char c;
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++){
+            cin >> c;
+            QT[i][j]=c;
+        }
+    if(Quad_Tree(0,0,N)=="1" || Quad_Tree(0,0,N)=="0"){
+        cout<< "("<< Quad_Tree(0,0,N)<<")";
+    }
+    else{
+	    cout<<Quad_Tree(0, 0, N);
+    }
+}
+
+string Quad_Tree(int x, int y, int size)
+{
+	if (size == 1) { return QT[y][x]; }
+
+	string a[5];
+	a[1] = Quad_Tree(x, y, size / 2);
+	a[2] = Quad_Tree(x + size / 2, y, size / 2);
+	a[3] = Quad_Tree(x, y + size / 2, size / 2);
+	a[4] = Quad_Tree(x + size / 2, y + size / 2, size / 2);
+
+	if (a[1] == "0" && a[2] == "0" && a[3] == "0" && a[4] == "0")
+		return "0";
+	if (a[1] == "1" && a[2] == "1" && a[3] == "1" && a[4] == "1")
+		return "1";
+	return "(" + a[1] + a[2] + a[3] + a[4] + ")";
+}
