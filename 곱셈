@@ -1,0 +1,33 @@
+#include<iostream>
+using namespace std;
+
+int A, B, C;
+int r[31];
+long long ar[31];
+
+int main()
+{
+	cin >> A >> B >> C;
+
+	r[1] = 1; // 2의 1~30 제곱 저장
+	for (int i = 2; i < 31; i++) {
+		r[i] = r[i - 1] * 2;
+	}
+
+	ar[1] = A % C; // A%C의 (1,2,4,8,16...2^30) 제곱 저장
+	for (int i = 2; i < 31; i++) {
+		ar[i] = ar[i - 1] * ar[i - 1] % C;
+	}
+
+	int result = 1;
+	while (B > 0)
+	{
+		for (int i = 30; i >= 1; i--)
+			if (B >= r[i])
+			{
+				result = result * ar[i] % C;
+				B -= r[i];
+			}
+	}
+	cout << result;
+}
