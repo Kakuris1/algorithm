@@ -1,0 +1,46 @@
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+int main()
+{
+	int N, M;
+	cin >> N >> M;
+
+	vector<int>v;
+	for (int i = 0; i <= N; i++) { v.push_back(i); }
+	
+	int num[50]={0,};	// 뽑으려는 수
+	int cnt = 0;		// 회전시킨 횟수
+	for (int i = 0; i < M; i++) 
+	{ 
+		cin >> num[i];
+		for (int j = 1; j <= N; j++) // 2번, 3번 연산 판단후 실행
+		{
+			if (num[i] == v[j] && j <= v.size()/2) // 2번 연산 필요할때
+			{
+				for (int t = 0; t < j - 1; t++)
+				{
+					v.push_back(v[1]);	// 1번째 값 푸시
+					v.erase(v.begin() + 1);	// 1번째 값 지움
+					cnt++;
+				}
+				break;
+			}
+			else if (num[i] == v[j] && j > v.size() / 2 ) // 3번 연산 필요할때
+			{
+				for (int t = 0; t < v.size() - j ; t++)
+				{
+					v.insert(v.begin() + 1, v.back());	// 마지막 값 1에 삽입
+					v.erase(v.end() - 1);	// 마지막 값 지움
+					cnt++;
+				}
+				break;
+			}
+		}
+		v.erase(v.begin() + 1); // 1번째 값 (a1) 지움
+	}
+	cout << cnt;
+}
+
