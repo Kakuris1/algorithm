@@ -1,0 +1,43 @@
+#include<iostream>
+using namespace std;
+
+int n, num_of_prime;
+bool isprime[1000000];
+int PRIME_NUMBER[80000];
+void prime_num();
+
+int main()
+{
+	prime_num();
+	while (true)
+	{
+		cin >> n;
+		if (n == 0) return 0;
+		for (int i = num_of_prime-1; i > 0; i--){
+			if (n > PRIME_NUMBER[i] && isprime[n - PRIME_NUMBER[i]] == true) {
+				cout << n << " = " << n - PRIME_NUMBER[i] << " + " << PRIME_NUMBER[i] << endl;
+				i = 0;
+			}			
+			if (i == 1) { cout << "Goldbach's conjecture is wrong\n"; }
+		}
+	}
+}
+
+void prime_num()
+{
+	for (int i = 0; i < 1000000; i++) { isprime[i] = true; }
+
+	isprime[1] = false;
+	for (int i = 2; i < 500000; i++) {
+		if (isprime[i] == false) continue;
+		for (int j = i+i; j < 1000000; j += i) {
+			isprime[j] = false;
+		}
+	}
+	int tmp = 0;
+	for (int i = 2; i < 1000000; i++)
+	{
+		if (isprime[i] == true) { PRIME_NUMBER[tmp] = i; tmp++; }
+	}
+	num_of_prime = tmp;
+}
