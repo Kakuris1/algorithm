@@ -1,24 +1,26 @@
 #include<iostream>
 using namespace std;
 
-int n, num_of_prime;
-bool isprime[1000000];
-int PRIME_NUMBER[80000];
+int n, num_of_prime;	// num_of_prime == 1~1,000,000 중 소수의 개수
+bool isprime[1000000];	// isprime[i] == 자연수 i의 소수 여부 
+int PRIME_NUMBER[80000];// PRIME_NUMBER[i] == 1~1,000,000 중 i 번째 소수
 void prime_num();
 
 int main()
 {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 	prime_num();
 	while (true)
 	{
 		cin >> n;
 		if (n == 0) return 0;
-		for (int i = num_of_prime-1; i > 0; i--){
-			if (n > PRIME_NUMBER[i] && isprime[n - PRIME_NUMBER[i]] == true) {
-				cout << n << " = " << n - PRIME_NUMBER[i] << " + " << PRIME_NUMBER[i] << endl;
-				i = 0;
-			}			
-			if (i == 1) { cout << "Goldbach's conjecture is wrong\n"; }
+		for (int i = 0; i < num_of_prime; i++) {
+			if (isprime[n - PRIME_NUMBER[i]] == true) {
+				cout << n << " = " << PRIME_NUMBER[i] << " + " << n - PRIME_NUMBER[i] << "\n";
+				i = num_of_prime + 1;
+			}
+			if (i == num_of_prime) { cout << "Goldbach's conjecture is wrong\n"; }
 		}
 	}
 }
@@ -30,7 +32,7 @@ void prime_num()
 	isprime[1] = false;
 	for (int i = 2; i < 500000; i++) {
 		if (isprime[i] == false) continue;
-		for (int j = i+i; j < 1000000; j += i) {
+		for (int j = i + i; j < 1000000; j += i) {
 			isprime[j] = false;
 		}
 	}
