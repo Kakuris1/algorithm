@@ -1,0 +1,64 @@
+#include<iostream>
+using namespace std;
+
+bool visited[51][51] = { false };
+bool exist_cabbage[51][51] = { false };
+int T, M, N, K;
+int cab_cnt = 0;
+int dx[4] = { 0,0,-1,1 };
+int dy[4] = { -1,1,0,0 };
+void reset();
+void dfs(int x, int y);
+
+int main()
+{
+	cin >> T;
+	for (int cs = 0; cs < T; cs++)
+	{
+		reset();
+		cin >> M >> N >> K;
+		int X, Y;
+		for (int i = 0; i < K; i++)
+		{
+			cin >> X >> Y;
+			exist_cabbage[Y][X] = true;
+		}
+
+		cab_cnt = 0;
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				if (exist_cabbage[i][j] == true && visited[i][j] == false) {
+					dfs(i, j);
+					cab_cnt++;
+				}
+			}
+		}
+		cout << cab_cnt;
+	}
+}
+
+void dfs(int x, int y)
+{
+	visited[y][x] = true;
+	for (int i = 0; i < 4; i++)
+	{
+		int nx = x + dx[i];
+		int ny = y + dy[i];
+		
+		if (nx < 0 || ny < 0 || nx >= M || ny >= N) continue;
+
+		if (exist_cabbage[ny][nx] == true && visited[ny][nx] == false) {
+			dfs(nx, ny);
+		}
+	}
+}
+
+void reset()
+{
+	for (int i = 0; i < 51; i++) {
+		for (int j = 0; j < 51; j++) {
+			visited[i][j] = false;
+			exist_cabbage[i][j] = false;
+		}
+	}
+}
