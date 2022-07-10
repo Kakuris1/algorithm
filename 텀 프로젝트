@@ -1,0 +1,40 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int N, S[100000], cnt; // N:학생수 S:작대기 결과 cnt: 싸이클에 속하는 정점 개수
+bool visited[100000], finished[100000];
+
+void dfs(int curr) {
+    visited[curr] = true;
+    int next = S[curr];
+    if (visited[next] == false) { dfs(next); }
+    else {
+        if (finished[next] == false) {
+            for (int temp = next; temp != curr; temp = S[temp]) { 
+                cnt++; 
+            }
+            cnt++;
+        }
+    }
+    finished[curr] = true;
+}
+
+int main()
+{
+    int T;
+    cin >> T;
+    while (T--)
+    {
+        cin >> N;
+        for (int i = 0; i < N; i++) { cin >> S[i]; S[i]--; }
+        fill(visited, visited + N, false);
+        fill(finished, finished + N, false);
+        cnt = 0;
+
+        for (int i = 0; i < N; i++) {
+            if (visited[i] == false) { dfs(i); }
+        }
+        cout << N - cnt << "\n";
+    }
+}
