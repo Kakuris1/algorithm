@@ -1,0 +1,42 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int N, M;
+int u, v;
+vector<vector<int>> adj;
+vector<bool> visited;
+
+void dfs(int curr)
+{
+	visited[curr] = true;
+	for (int i = 0; i < adj[curr].size(); i++)
+	{
+		if (visited[adj[curr][i]] == false) { dfs(adj[curr][i]);  }
+	}
+}
+
+int main()
+{
+	cin >> N >> M;
+
+	adj.resize(N);
+	visited.resize(N);
+
+	for (int i = 0; i < M; i++)
+	{
+		cin >> u >> v;
+		adj[u - 1].push_back(v - 1);
+		adj[v - 1].push_back(u - 1);
+	}
+
+	int component = 0;
+	for (int i = 0; i < N; i++) {
+		if (visited[i] == false) {
+			dfs(i);
+			
+			component++;
+		}
+	}
+	cout << component;
+}
