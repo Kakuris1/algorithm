@@ -1,0 +1,48 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+int N, M, K;
+bool Food_Waste[101][101];
+bool visited[101][101];
+int dx[4] = { 0,0,-1,1 };
+int dy[4] = { -1,1,0,0 };
+int FW_cnt;
+
+void dfs(int x, int y)
+{
+	visited[x][y] = true;
+	FW_cnt++;
+	for (int i = 0; i < 4; i++) {
+		int nx = x + dx[i];
+		int ny = y + dy[i];
+		if (nx > 0 && nx <= 100 && ny > 0 && ny <= 100) {
+			if (Food_Waste[nx][ny] == true && visited[nx][ny] == false) { cout << nx << " " << ny << endl; dfs(nx, ny); }
+		}
+	}
+}
+
+int main()
+{
+	cin >> N >> M >> K;
+
+	int r, c;
+	for (int i = 0; i < K; i++){
+			cin >> r >> c;
+			Food_Waste[c][r] = true;
+	}
+
+	int result = 0;
+	for (int i = 1; i <= N; i++)
+		for (int j = 1; j <= M; j++) 
+		{
+			FW_cnt = 0;
+			if (Food_Waste[i][j] == true && visited[i][j] == false) {
+				dfs(j, i);
+				result = max(result, FW_cnt);
+				cout << j<<" "<< i << " "<< result << endl;
+			}
+		}
+	cout << "ans "<<result;
+}
