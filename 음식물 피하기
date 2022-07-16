@@ -1,6 +1,56 @@
 #include<iostream>
 #include<algorithm>
-#include<vector>
+using namespace std;
+
+int N, M, K;
+bool Food_Waste[101][101];
+bool visited[101][101];
+int dx[4] = { 0,0,-1,1 };
+int dy[4] = { -1,1,0,0 };
+int FW_cnt;
+
+void dfs(int x, int y)
+{
+	visited[y][x] = true;
+	FW_cnt++;
+	for (int i = 0; i < 4; i++) {
+		int nx = x + dx[i];
+		int ny = y + dy[i];
+		if (nx > 0 && nx <= M && ny > 0 && ny <= N) {
+			if (Food_Waste[ny][nx] == true && visited[ny][nx] == false) {
+				dfs(nx, ny);
+			}
+		}
+	}
+}
+
+int main()
+{
+	cin >> N >> M >> K;
+
+	int r, c;
+	for (int i = 0; i < K; i++) {
+		cin >> r >> c;
+		Food_Waste[r][c] = true;
+	}
+
+	int result = 0;
+	for (int i = 1; i <= N; i++)
+		for (int j = 1; j <= M; j++)
+		{
+			FW_cnt = 0;
+			if (Food_Waste[i][j] == true && visited[i][j] == false) {
+				dfs(j, i);
+				result = max(result, FW_cnt);
+			}
+		}
+	cout << result;
+}
+
+// 수정 전 코드 : 입력시 r, c의 순서 오류
+/*
+#include<iostream>
+#include<algorithm>
 using namespace std;
 
 int N, M, K;
@@ -46,3 +96,4 @@ int main()
 		}
 	cout << "ans "<<result;
 }
+*/
