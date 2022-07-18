@@ -1,0 +1,68 @@
+#include<iostream>
+using namespace std;
+
+int M, N, K; //M : y, N : x, K : 사각형 수
+bool filled[101][101];
+bool visited[101][101];
+int dx[4] = { 0,0,-1,1 };
+int dy[4] = { -1,1,0,0 };
+int area;
+int result_arr[10000];
+
+void dfs(int x, int y)
+{
+	visited[y][x] = true;
+	area++;
+	for (int i = 0; i < 4; i++)
+	{
+		int nx = x + dx[i];
+		int ny = y + dy[i];
+		if (nx > 0 && nx <= N && ny > 0 && ny <= M)
+		{
+			if (filled[ny][nx] == false && visited[ny][nx] == false)
+				dfs(nx, ny);
+		}
+	}
+}
+
+void result_sort(int size)
+{
+	for (int i = 0; i < size; i++) {
+		int curr = i;
+		for (int j = i; j < size; j++) {
+			if (result_arr[curr] > result_arr[j]) curr = j;
+		}
+		int tmp = result_arr[i];
+		result_arr[i] = result_arr[curr];
+		result_arr[curr] = tmp;
+	}
+}
+
+int main()
+{
+	cin >> M >> N >> K;
+	int A[2], B[2];
+	for (int k = 0; k < K; k++) 
+	{
+		cin >> A[0] >> A[1] >> B[0] >> B[1];
+		for (int i = A[1] + 1; i <= B[1]; i++) {
+			for (int j = A[0] + 1; j <= B[0]; j++) {
+				filled[i][j] = true;
+			}
+		}
+	}
+	int size = 0;
+	for (int i = 1; i <= M; i++) {
+		for (int j = 1; j <= N; j++) {
+			if (filled[i][j] == false && visited[i][j] == false) {
+				area = 0;
+				dfs(j, i);
+				result_arr[size] = area;
+				size++;
+			}
+		}
+	}
+	result_sort(size);
+	cout << size << endl;
+	for (int i = 0; i < size; i++) cout << result_arr[i] << " ";
+}
