@@ -1,0 +1,39 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int N;
+int graph[101][101];
+bool have_route[101][101];
+bool visited[101];
+
+void dfs(int curr)
+{
+	for (int i = 0; i < N; i++) {
+		if (graph[curr][i] == 1 && visited[i] == false) {
+			visited[i] = true;
+			dfs(i);
+		}
+	}
+}
+
+int main()
+{
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			cin >> graph[i][j];
+		}
+	}
+
+	for (int i = 0; i < N; i++)
+	{
+		fill(visited, visited + N, false);
+		dfs(i);
+		for (int j = 0; j < N; j++) {
+			if (visited[j]) cout << "1 ";
+			else cout << "0 ";
+		}
+		cout << "\n";
+	}
+}
