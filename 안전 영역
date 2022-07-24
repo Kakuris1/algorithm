@@ -1,0 +1,53 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int N;
+int map[101][101];
+bool visited[101][101];
+int dx[4] = { 0,0,-1,1 };
+int dy[4] = { -1,1,0,0 };
+
+void dfs(int y, int x, int h)
+{
+	visited[y][x] = true;
+	for (int i = 0; i < 4; i++) {
+		int nx = x + dx[i];
+		int ny = y + dy[i];
+		if (nx >= 0 && nx < 100 && ny >= 0 && ny < 100) {
+			if (map[ny][nx] > h && visited[ny][nx] == false) {
+				dfs(ny, nx, h);
+			}
+		}
+	}
+}
+
+int main()
+{
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			cin >> map[i][j];
+		}
+	}
+
+	int result = 0;
+	for (int h = 0; h <= 100; h++)
+	{
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++) visited[i][j] = false;
+
+		int safe_zone = 0;
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) 
+			{
+				if (map[i][j] > h && visited[i][j] == false) {
+					dfs(i, j, h);
+					safe_zone++;
+				}
+			}
+		}
+		result = max(result, safe_zone);
+	}
+	cout << result;
+}
