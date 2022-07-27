@@ -1,0 +1,71 @@
+#include<iostream>
+using namespace std;
+
+int N, R, G, B, Y; // Y : R+G 색약
+char color[101][101];
+bool visited[101][101];
+int dx[4] = { 0,0,-1,1 };
+int dy[4] = { -1,1,0,0 };
+
+void dfs(int y, int x, char col)
+{
+	visited[y][x] = true;
+	for (int i = 0; i < 4; i++) {
+		int nx = x + dx[i];
+		int ny = y + dy[i];
+		if (nx >= 0 && nx < 100 && ny >= 0 && ny < 100) {
+			if (col == 'Y') {
+				if ((color[ny][nx] == 'R' || color[ny][nx] == 'G') && visited[ny][nx] == false) dfs(ny, nx, col);
+			}
+			else {
+				if (color[ny][nx] == col && visited[ny][nx] == false) dfs(ny, nx, col);
+			}
+		}
+	}
+}
+
+int main()
+{
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			cin >> color[i][j];
+		}
+	}
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++)
+		{
+			if (visited[i][j] == false)
+			{
+				switch (color[i][j]) {
+					case 'R':
+						dfs(i, j, 'R');
+						R++;
+						break;
+					case 'G':
+						dfs(i, j, 'G');
+						G++;
+						break;
+					case 'B':
+						dfs(i, j, 'B');
+						B++;
+						break;
+				}
+			}
+		}
+	}
+	
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++) visited[i][j] = false;
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++){
+			if ((color[i][j] == 'R' || color[i][j] == 'G') && visited[i][j] == false) {
+				dfs(i, j, 'Y');
+				Y++;
+			}
+		}
+	}
+	cout << R + G + B << " " << Y + B;
+}
