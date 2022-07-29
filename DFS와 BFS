@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+using namespace std;
+
+    int N; // 정점의 개수
+    int M, V;
+    vector<vector<int>> adj; // 인접 리스트
+    vector<bool> visited(1001, false);
+
+    // 간선 추가 함수
+    void addEdge(int u, int v) {
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    // 모든 리스트의 인접한 정점 번호 정렬
+    void sortList() {
+        for (int i = 0; i < N; i++)
+            sort(adj[i].begin(), adj[i].end());
+    }
+
+    // 너비 우선 탐색
+    void bfs(int start) {
+        fill(visited.begin(), visited.begin() + N+1, false);
+        queue<int> Q;
+        Q.push(start);
+        visited[start] = true;
+        // 탐색 시작
+        while (!Q.empty()) {
+            int curr = Q.front();
+            Q.pop();
+            cout << curr<<" ";
+            for (int next : adj[curr]) {
+                if (!visited[next]) {
+                    visited[next] = true;
+                    Q.push(next);
+                }
+            }
+        }
+    }
+    
+    void dfs(int curr)
+    {
+        visited[curr] = true;
+        cout << curr<<" ";
+        for (int next : adj[curr])
+        {
+            if (!visited[next]) {
+                dfs(next);
+            }
+        }
+    }
+
+int main() 
+{
+    cin >> N >> M >> V;
+    adj.resize(10001);
+    while (M--)
+    {
+        int a, b;
+        cin >> a >> b;
+        addEdge(a, b);
+    }
+    sortList();
+    dfs(V);
+    cout << endl;
+    bfs(V);
+}
