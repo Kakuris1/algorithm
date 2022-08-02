@@ -17,7 +17,7 @@ using namespace std;
 
     // 모든 리스트의 인접한 정점 번호 정렬
     void sortList() {
-        for (int i = 0; i < N; i++)
+        for (int i = 1; i <= N; i++)
             sort(adj[i].begin(), adj[i].end());
     }
 
