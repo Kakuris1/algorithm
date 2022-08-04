@@ -1,0 +1,63 @@
+#include<iostream>
+#include<algorithm>
+#include<queue>
+#include<vector>
+using namespace std;
+
+vector<vector<int>> adj;
+vector<bool>visited(101, false);
+int n, m;
+int A, B;
+
+int bfs(int start, int end)
+{
+	int dis = 0;
+	queue<int>Q;
+	Q.push(start);
+	visited[start] = true;
+	while (Q.empty() == false)
+	{
+		int qSize = Q.size();
+		for (int i = 0; i < qSize; i++)
+		{
+			int curr = Q.front();
+			if (curr == end) { return dis++; }
+			Q.pop();
+			for (int next : adj[curr]) {
+				if (visited[next] == false) {
+					visited[next] = true;
+					Q.push(next);
+				}
+			}
+		}
+		dis++;
+	}
+	return -1;
+}
+
+void addEdge(int u, int v)
+{
+	adj[u].push_back(v);
+	adj[v].push_back(u);
+}
+
+void sort_List()
+{
+	for (int i = 1; i <= n; i++)
+		sort(adj[i].begin(), adj[i].end());
+}
+
+int main()
+{
+	cin >> n >> A >> B >> m;
+
+	adj.resize(101);
+	int x, y;
+	while (m--)
+	{
+		cin >> x >> y;
+		addEdge(x, y);
+	}
+	sort_List();
+	cout << bfs(A, B);
+}
