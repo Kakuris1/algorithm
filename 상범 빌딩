@@ -28,7 +28,7 @@ int bfs()
 		{
 			tuple<int, int, int> curr = Q.front();
 			if (curr == end_pos) {
-				cout << "Escaped in " << dis << " minute(s)\n";
+				cout << "Escaped in " << dis << " minute(s).\n";
 				return 0;
 			}
 			Q.pop();
@@ -52,8 +52,8 @@ int bfs()
 
 void reset()
 {
-	fill(&visited[0][0][0], &visited[30][31][31], false);
-	fill(&route[0][0][0], &route[30][31][31], false);
+	fill(&visited[0][0][0], &visited[30][30][30], false);
+	fill(&route[0][0][0], &route[30][30][30], false);
 }
 
 int main()
