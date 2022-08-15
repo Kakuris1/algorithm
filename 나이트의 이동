@@ -1,0 +1,57 @@
+#include<iostream>
+#include<queue>
+#include<utility>
+using namespace std;
+
+int T, L;
+bool visited[300][300];
+int dx[8] = { 1, 2, 2, 1, -1, -2, -2, -1 };
+int dy[8] = { 2, 1, -1, -2, -2, -1, 1, 2 };
+
+int bfs(pair<int,int> start, pair<int,int> end)
+{
+	queue<pair<int, int>> Q;
+	Q.push(start);
+	visited[start.second][start.first] = true;
+	int min = 0;
+	while (!Q.empty())
+	{
+		int Qsize = Q.size();
+		for (int i = 0; i < Qsize; i++)
+		{
+			pair<int, int>curr = Q.front();
+			if (curr == end) { return min; }
+			Q.pop();
+			for (int j = 0; j < 8; j++)
+			{
+				int nx = curr.first + dx[j];
+				int ny = curr.second + dy[j];
+				if (nx >= 0 && ny >= 0 && nx < L && ny < L) {
+					if (!visited[ny][nx]) {
+						Q.push(make_pair(nx, ny));
+						visited[ny][nx] = true;
+					}
+				}
+			}
+		}
+		min++;
+	}
+	return -1;
+}
+
+void reset()
+{
+	fill(&visited[0][0], &visited[299][299], false);
+}
+
+int main()
+{
+	cin >> T;
+	while (T--)
+	{
+		int start_x, start_y, end_x, end_y;
+		cin >> L >> start_x >> start_y >> end_x >> end_y;
+		reset();
+		cout << bfs(make_pair(start_x, start_y), make_pair(end_x, end_y)) << "\n";
+	}
+}
