@@ -1,0 +1,77 @@
+#include<iostream>
+#include<queue>
+#include<tuple>
+using namespace std;
+
+int N, M;
+bool have_route[1001][1001];
+bool visited[1001][1001][2]; // [0]은 아직 안 부신 경우, [1] 은 벽을 이미 부신 경우
+int dx[4] = { 0,0,-1,1 };
+int dy[4] = { -1,1,0,0 };
+
+void bfs()
+{
+	queue<tuple<int, int, bool>>Q;	// Q (x좌표, y좌표, 벽 파괴 여부)
+	Q.push(make_tuple(1, 1, false));
+	visited[1][1][0] = true;
+
+	int dis = 0;
+	while (!Q.empty())
+	{
+		int Qsize = Q.size();
+		for (int Qfor = 0; Qfor < Qsize; Qfor++)
+		{
+			tuple<int, int, bool> curr = Q.front();
+			
+			if (get<0>(curr) == M && get<1>(curr) == N) { // 도착시 함수 탈출
+				cout << dis + 1;
+				return;
+			}
+			Q.pop();
+			for (int i = 0; i < 4; i++)
+			{
+				int nx = get<0>(curr) + dx[i];
+				int ny = get<1>(curr) + dy[i];
+				if (nx > 0 && ny > 0 && nx <= M && ny <= N) // 맵 이내 일 경우
+				{
+					// 1. 벽뿌X 이동 가능 - 이동 / 2. 벽뿌X 벽있음 - 부시기 / 3.벽뿌 O 이동 가능 - 이동 / 4. 벽뿌O 벽있음 못감
+					if (get<2>(curr) == false) // 벽뿌X
+					{
+						if (!visited[ny][nx][0] && have_route[ny][nx]) { // case 1
+							Q.push(make_tuple(nx, ny, false));
+							visited[ny][nx][0] = true;
+						}
+						if (!have_route[ny][nx]) {	// case 2
+							Q.push(make_tuple(nx, ny, true));
+							visited[ny][nx][1] = true;
+						}
+					}
+					else if (get<2>(curr) == true) // 벽뿌 O
+					{
+						if (!visited[ny][nx][1] && have_route[ny][nx]) { // case 3
+							Q.push(make_tuple(nx, ny, true));
+							visited[ny][nx][1] = true;
+						}
+					}
+				}
+			}
+		}
+		dis++;
+	}
+	cout << -1;
+	return;
+}
+
+int main()
+{
+	cin >> N >> M;//N : Y, M : X 
+
+	char t;
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			cin >> t;
+			if (t == '0') { have_route[i][j] = true; }
+		}
+	}
+	bfs();
+}
