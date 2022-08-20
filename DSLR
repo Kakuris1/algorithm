@@ -1,0 +1,84 @@
+#include<iostream>
+#include<queue>
+#include<tuple>
+#include<algorithm>
+#include<string>
+using namespace std;
+
+int T, A, B;
+bool visited[10000];
+pair<int, char> pre[10000];
+tuple<int, int, int, int> Div(int N);
+int Comb(int d1, int d2, int d3, int d4);
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	cin >> T;
+	while (T--)
+	{
+		cin >> A >> B;
+
+		fill(visited, visited + 10000, false);
+		queue<int>Q;
+		Q.push(A);
+		visited[A] = true;
+		pre[A] = make_pair(-1, 'A');
+
+		while (!Q.empty())
+		{
+			int Qsize = Q.size();
+			for (int Qfor = 0; Qfor < Qsize; Qfor++)
+			{
+				int curr = Q.front();
+				Q.pop();
+
+				if (curr == B) { while (!Q.empty()) { Q.pop(); } break; }
+				
+				int D = curr * 2 % 10000;
+				if (!visited[D]) { Q.push(D); visited[D] = true; pre[D] = make_pair(curr, 'D'); }
+
+				int S = (curr - 1 + 10000) % 10000;
+				if (!visited[S]) { Q.push(S); visited[S] = true; pre[S] = make_pair(curr, 'S'); }
+
+				tuple<int,int,int,int> L1 = Div(curr);
+				int L2 = Comb(get<1>(L1), get<2>(L1), get<3>(L1), get<0>(L1));
+				if (!visited[L2]) { Q.push(L2); visited[L2] = true; pre[L2] = make_pair(curr, 'L'); }
+
+				tuple<int, int, int, int> R1 = Div(curr);
+				int R2 = Comb(get<3>(R1), get<0>(R1), get<1>(R1), get<2>(R1));
+				if (!visited[R2]) { Q.push(R2); visited[R2] = true; pre[R2] = make_pair(curr, 'R'); }
+			}
+		}
+		int next = B;
+		char result[10000];
+		int i = 0;
+		while (next != A)
+		{
+			result[i] = pre[next].second;
+			next = pre[next].first;
+			i++;
+		}
+		while (i--) { cout << result[i]; }
+		cout << '\n';
+	}
+}
+
+tuple<int, int, int, int> Div(int N)
+{
+	int d1 = N % 10;
+	int d2 = N / 10 % 10;
+	int d3 = N / 100 % 10;
+	int d4 = N / 1000;
+	return make_tuple(d4, d3, d2, d1);
+}
+
+int Comb(int d1, int d2, int d3, int d4)
+{
+	int N = d1 * 1000 + d2 * 100 + d3 * 10 + d4;
+	return N;
+}
