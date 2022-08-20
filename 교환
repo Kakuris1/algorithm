@@ -1,0 +1,60 @@
+#include<iostream>
+#include<queue>
+#include<tuple>
+#include<algorithm>
+using namespace std;
+
+int N, M, K;
+int d[8] = { 0, };
+int swap(int A, int B, int curr_min);
+
+int main()
+{
+	cin >> N >> K;
+	int tmp = N;
+	M = 1;
+	while (tmp >= 10) { tmp /= 10; M++; }
+	//-1 출력코드 따로 만들기
+
+	//
+	int m = M;
+	int n = N;
+	while (m) { d[m] = n % 10; n /= 10; m--; }
+	//for (int i = 1; i <= M; i++) { cout << d[i]; }
+
+	int result = 1;
+	for (int i = 1; i < M; i++) {
+		for (int j = i + 1; j <= M; j++) {
+			result = swap(i, j, result);
+		}
+	}
+	cout << result;
+}
+
+int swap(int A, int B, int curr_min)
+{
+	//swap
+	int tmp = d[A];
+	d[A] = d[B];
+	d[B] = tmp;
+
+	int tmp_d[8] = { 0, };
+	for (int i = 1; i < 8; i++) { tmp_d[i] = d[i]; }
+
+	int m = M;
+	for (int i = 1; i < M; i++) {
+		for (int j = 1; j <= i; j++) {
+			tmp_d[j] *= 10;
+		}
+	}
+	int sum = 0;
+	for (int i = 1; i < 8; i++) { sum += tmp_d[i]; }
+	
+	//다시 swap
+	int tmp = d[A];
+	d[A] = d[B];
+	d[B] = tmp;
+
+	if (sum < curr_min) { return sum; }
+	else { return curr_min; }
+}
