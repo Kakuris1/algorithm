@@ -42,11 +42,4 @@ int main()
                 blank[blank_cnt]=10*x+y;
             }
         }
-    
-    for(int y=1; y<=9; y++)
-        for(int x=1; x<=9; x++){
-            if(N[y][x]==0){
-                
-            }
-        }
 }
