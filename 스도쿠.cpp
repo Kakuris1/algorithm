@@ -1,10 +1,10 @@
 #include<iostream>
-
 using namespace std;
 int N[10][10];
 int blank[82];
 int blank_cnt = 0;
 int answer[10][10];
+bool printed;
 
 bool judge_area(int x, int y, int curr)
 {
@@ -29,28 +29,34 @@ bool judge_area(int x, int y, int curr)
 
 void dfs(int curr)
 {
-    //cout << "curr : "<< curr << "\n";
     if (curr == blank_cnt + 1) {//가능
-        for (int y = 1; y <= 9; y++)
+        for (int y = 1; y <= 9; y++) {
             for (int x = 1; x <= 9; x++) {
-                answer[y][x] = N[y][x];
+                cout << N[y][x] << " ";
             }
+            cout << endl;
+        }
+        exit(0);
+        return;
     }
     int x = blank[curr] / 10;
     int y = blank[curr] % 10;
+
     for (int value = 1; value <= 9; value++) {
-        bool can_put = true;
+        bool can_put_R = true;
+        bool can_put_C = true;
+        bool can_put_Sec = true;
         //가로 판별
         for (int i = 1; i <= 9; i++) {
-            if (N[y][i] == value) { can_put = false; }
+            if (N[y][i] == value) { can_put_R = false; }
         }
         //세로 판별
         for (int i = 1; i <= 9; i++) {
-            if (N[i][x] == value) { can_put = false; }
+            if (N[i][x] == value) { can_put_C = false; }
         }
         //구역 판별
-        can_put = judge_area(x, y, value);
-        if (can_put) {
+        can_put_Sec = judge_area(x, y, value);
+        if (can_put_R && can_put_C && can_put_Sec) {
             N[y][x] = value;
             dfs(curr + 1);
         }
@@ -66,29 +72,13 @@ int main()
             if (N[y][x] == 0) {
                 blank_cnt++;
                 blank[blank_cnt] = 10 * x + y;
-                cout << blank[blank_cnt] << endl;
             }
         }
-    cout << "A";
     dfs(1);
-    cout << "B";
     for (int y = 1; y <= 9; y++) {
         for (int x = 1; x <= 9; x++) {
-            cout << answer[y][x];
+            cout << answer[y][x] << " ";
         }
         cout << '\n';
     }
 }
-
-//cout<<"A"
-/*
-0 3 5 4 6 9 2 7 8
-7 8 2 1 0 5 6 0 9
-0 6 0 2 7 8 1 3 5
-3 2 1 0 4 6 8 9 7
-8 0 4 9 1 3 5 0 6
-5 9 6 8 2 0 4 1 3
-9 1 7 6 5 2 0 8 0
-6 0 3 7 0 1 9 5 2
-2 5 8 3 9 4 7 6 0
-*/
