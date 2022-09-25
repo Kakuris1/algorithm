@@ -1,3 +1,63 @@
+// 3회차 set lower_bound 활용 
+#include<iostream>
+#include<set>
+using namespace std;
+int Gate_num, Plane_num;
+int g[100001];
+set<int, greater<int>> doke_yet;
+int doke_cnt = 0;
+
+int main()
+{
+	cin >> Gate_num >> Plane_num;
+	for (int i = 0; i < Plane_num; i++) { cin >> g[i]; }
+	for (int i = 1; i <= Gate_num; i++) { doke_yet.insert(i); }
+
+	set<int>::iterator iter;
+	for (int i = 0; i < Plane_num; i++){
+		iter = doke_yet.lower_bound(g[i]);
+		if (iter != doke_yet.end()) {
+			cout << *iter << "에 도킹\n";
+			doke_yet.erase(iter);
+			doke_cnt++; // 도킹 수 +1
+		}
+		else { break; }
+	}
+	cout << doke_cnt;
+}
+
+/* 1회차 시간복잡도 O(N*N)  
+#include<iostream>
+using namespace std;
+int Gate_num, Plane_num;
+int g[100001];
+bool already_doking[100001];
+int doke_cnt = 0;
+
+int main()
+{
+	cin >> Gate_num >> Plane_num;
+	for (int i = 0; i < Plane_num; i++)
+	{
+		cin >> g[i];
+	}
+	for (int i = 0; i < Plane_num; i++)
+	{
+		bool can_doke = false;
+		for (int put = g[i]; put >= 1; put--)
+		{
+			if (already_doking[put]) { continue; }
+			already_doking[put] = true;
+			can_doke = true;
+			doke_cnt++;
+			break;
+		}
+		if (!can_doke) { cout << doke_cnt; break; }
+	}
+}
+*/
+
+/* 2회차 set 활용 풀이
 #include<iostream>
 #include<set>
 using namespace std;
@@ -35,34 +95,4 @@ int main()
 	}
 	cout << doke_cnt;
 }
-/*
-for (int i = 0; i < Plane_num; i++)
-{
-	bool can_doke = false;
-	for (int put = g[i]; put >= 1; put--)
-	{
-		if (already_doking[put]) { continue; }
-		already_doking[put] = true;
-		can_doke = true;
-		doke_cnt++;
-		break;
-	}
-	if (!can_doke) { cout << doke_cnt; break; }
-}
 */
-
-/*
-int main()
-{
-	for(int i=10; i<100; i+=10){
-			doke_yet.insert(i);
-	}
-	set<int>::iterator iter;
-
-	set<int>::reverse_iterator r_iter;
-	for (iter = doke_yet.find(50); iter != doke_yet.begin(); iter--) {
-		if (*iter == 50) { continue; }
-		cout << *iter << " ";
-	}
-	cout << *doke_yet.begin();
-}*/
