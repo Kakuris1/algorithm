@@ -17,7 +17,6 @@ int main()
 	for (int i = 0; i < Plane_num; i++){
 		iter = doke_yet.lower_bound(g[i]);
 		if (iter != doke_yet.end()) {
-			cout << *iter << "에 도킹\n";
 			doke_yet.erase(iter);
 			doke_cnt++; // 도킹 수 +1
 		}
