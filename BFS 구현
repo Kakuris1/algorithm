@@ -61,4 +61,3 @@ int main(){
     G.sortList();
     G.bfs();
 }
-[출처] 너비 우선 탐색(Breadth-First Search) (수정 2018-11-22)|작성자 라이
