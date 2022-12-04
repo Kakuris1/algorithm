@@ -212,7 +212,7 @@ int main()
 
 //
 // 3회
-//
+//만난 문명수가 아닌, 확장수==UNION수 로 
 #include<iostream>
 #include<algorithm>
 #include<queue>
@@ -270,7 +270,6 @@ int main()
 	while (!Q.empty())
 	{
 		time_spend++;
-		//cout << time_spend << " 년째\n\n";
 		fill(&this_year[0][0], &this_year[2999][2999], false);
 		int Q_size = Q.size();
 		for (int i = 0; i < Q_size; i++)
@@ -284,29 +283,22 @@ int main()
 
 				if (nx<1 || ny<1 || nx>N || ny>N || Find(curr) == Find(next)) { continue; } // 맵 벗어남, 같은 문명임
 
-				//cout << "[" << curr.first << "][" << curr.second << "] (" << p[curr.second][curr.first].first << ", " << p[curr.second][curr.first].second << ") ->["
-					//<< next.first << "][" << next.second << "] (" << p[next.second][next.first].first << ", " << p[next.second][next.first].second << ")";
-
 				if (p[ny][nx] == yet) { // 빈땅
 					Q.push(next);
 					Union(curr, next);
 					map_extend_cnt++;
-					//cout << "빈땅 확장\n";
 					this_year[ny][nx] = true;
 				}
 				else if (Find(curr) != Find(next)) {
 					Union(curr, next); // 문명 접견
 					cnt_CIV_meet++;
-					//cout << "새 문명 접견\n";
 					if (cnt[Find(curr).second][Find(curr).first] == map_extend_cnt) { // 모든 문명이 만남
-						//cout << "모든 확장 : " << map_extend_cnt << " [" << Find(curr).first << ", " << Find(curr).second << "] 문명 땅 : " << cnt[Find(curr).second][Find(curr).first] << "\n\n";
 						if (this_year[ny][nx]) { cout << time_spend; }
 						else { cout << time_spend - 1; }
 						return 0;
 					}
 
 				}
-				//cout << "모든 확장 : " << map_extend_cnt << " [" << Find(curr).first << ", " << Find(curr).second << "] 문명 땅 : " << cnt[Find(curr).second][Find(curr).first] << "\n\n";
 			}
 		}
 	}
