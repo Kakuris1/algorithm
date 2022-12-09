@@ -84,16 +84,6 @@ int main()
 	}
 }
 
-void check(Pr curr, Pr next)
-{
-	cout << "모든 확장 : " << map_extend_cnt << " 해당문명 땅 : " << cnt[curr.first][curr.second] << "\n\n";
-	cout << "[" << curr.first << "][" << curr.second << "] -> [" << next.first << "][" << next.second << "] ";
-	if (p[next.second][next.first] == yet) { cout << "빈땅 확장\n"; }
-	else if (p[curr.second][curr.first] != p[next.second][next.first]) { cout << "새 문명 접견\n"; }
-}
-
-
-
 //
 
 
