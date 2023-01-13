@@ -16,7 +16,7 @@ int main()
 	{
 		int a, b, dis;
 		cin >> a >> b >> dis;
-		adj[a - 1].push_back(P(b-1, dis));
+		adj[a - 1].push_back(P(b - 1, dis));
 	}
 	int start, end;
 	cin >> start >> end;
@@ -28,12 +28,12 @@ int main()
 	priority_queue<P, vector<P>, greater<P>> PQ;
 
 	dist[start] = 0;
-	PQ.push(P(start, 0));
+	PQ.push(P(0, start));
 	while (!PQ.empty())
 	{
 		int curr;
 		do {
-			curr = PQ.top().first;
+			curr = PQ.top().second;
 			PQ.pop();
 		} while (!PQ.empty() && visited[curr]);
 		if (visited[curr])break;
@@ -46,11 +46,11 @@ int main()
 			//cout << " 기존 : " << dist[next]<<endl;
 			if (dist[next] > dist[curr] + d) {
 				dist[next] = dist[curr] + d;
-				PQ.push(P(next, dist[next]));
+				PQ.push(P(dist[next], next));
 				//cout << "갱신 : " << dist[next] << endl;
 			}
 		}
-		cout << endl;
+		//cout << endl;
 	}
 	cout << dist[end];
 }
